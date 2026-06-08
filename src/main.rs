@@ -1,6 +1,6 @@
 use actix_web::{
     App, HttpServer,
-    middleware::{NormalizePath, TrailingSlash},
+    middleware::{Logger, NormalizePath, TrailingSlash},
     web,
 };
 
@@ -28,6 +28,7 @@ async fn main() -> std::io::Result<()> {
     let server = HttpServer::new(move || {
         App::new()
             .wrap(NormalizePath::new(TrailingSlash::Trim))
+            .wrap(Logger::default())
             .app_data(state.clone())
             .configure(api::configure)
     })
