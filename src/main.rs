@@ -8,6 +8,7 @@ mod api;
 mod config;
 mod state;
 mod telemetry;
+mod utils;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
