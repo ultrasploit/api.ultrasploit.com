@@ -1,6 +1,7 @@
 use actix_cors::Cors;
 use actix_web::{
     App, HttpServer,
+    http::header,
     middleware::{Logger, NormalizePath, TrailingSlash},
     web,
 };
@@ -39,6 +40,13 @@ async fn main() -> std::io::Result<()> {
                 .max_age(3600)
         } else {
             Cors::default()
+                .allowed_origin("https://ultrasploit.github.io")
+                .allowed_origin_fn(|origin, _req_head| {
+                    origin.as_bytes().ends_with(b".ultrasploit.com")
+                })
+                .allowed_methods(vec!["GET", "POST", "OPTIONS"])
+                .allowed_headers(vec![header::CONTENT_TYPE, header::ACCEPT])
+                .max_age(3600)
         };
 
         App::new()
